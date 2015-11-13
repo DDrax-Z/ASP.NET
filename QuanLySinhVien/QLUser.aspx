@@ -9,6 +9,9 @@
         .auto-style1 {
             height: 30px;
         }
+        .auto-style2 {
+            height: 24px;
+        }
     </style>
     <link rel="stylesheet" href="1.css" />
 </head>
@@ -23,8 +26,8 @@
         </tr>
 
         <tr>
-            <td style="text-align:right;">Họ tên:</td>
-            <td><asp:TextBox ID="txtHoten" runat="server"></asp:TextBox></td>
+            <td style="text-align:right;" class="auto-style1">Họ tên:</td>
+            <td class="auto-style1"><asp:TextBox ID="txtHoten" runat="server"></asp:TextBox></td>
         </tr>
 
         <tr>
@@ -39,13 +42,15 @@
         </tr>
 
         <tr>
-            <td style="text-align:right;">Mật khẩu:</td>
-            <td><asp:TextBox ID="txtPass" runat="server"></asp:TextBox></td>
+            <td style="text-align:right;" class="auto-style2">Mật khẩu:</td>
+            <td class="auto-style2"><asp:TextBox ID="txtPass" runat="server"></asp:TextBox></td>
         </tr>
         
         <tr>
             <td colspan="2" style="text-align:center" class="auto-style1">
                 <asp:Button ID="btnThem" runat="server" Text="Thêm" OnClick="btnThem_Click" class="buttoncapnhat"/>
+                <asp:Button ID="btnCapNhat" runat="server" Text="Cập nhật" class="buttoncapnhat" OnClick="btnCapNhat_Click"/>
+                <asp:Button ID="btnHuy" runat="server" Text="Hủy" class="buttoncapnhat" OnClick="btnHuy_Click"/>
             </td>
         </tr>
     </table>
@@ -53,17 +58,25 @@
 
         <div>
             <h2 style="text-align:center">Danh sách</h2>
-            <p style="margin:auto">
-                <asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" class="grid">
+            <p style="margin:auto; ">
+                <asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" class="grid" OnRowCommand="GridView1_RowCommand">
                     <AlternatingRowStyle BackColor="White" />
                     <Columns>
+                        <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" />
                         <asp:BoundField DataField="Fullname" HeaderText="Họ và tên" SortExpression="Fullname" />
                         <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
                         <asp:BoundField DataField="Username" HeaderText="Tên đăng nhập" SortExpression="Username" />
                         <asp:BoundField DataField="Password" HeaderText="Mật khẩu" SortExpression="Password" />
-                        <asp:ButtonField ButtonType="Button" CommandName="Edit" HeaderText="Sửa" ShowHeader="True" Text="Sửa" />
-                        <asp:ButtonField ButtonType="Button" CommandName="Delete" HeaderText="Xóa" ShowHeader="True" Text="Xóa" />
-                        <asp:ButtonField ButtonType="Button" CommandName="Update" HeaderText="Cập nhật" ShowHeader="True" Text="Cập nhật" />
+                        <asp:TemplateField HeaderText="Sửa">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="Button1" runat="server" CausesValidation="false" CommandName="Sua" Text="Sửa" CommandArgument='<%# Eval("ID") %>'/>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Xóa">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="Button2" runat="server" CausesValidation="false" CommandName="Xoa" Text="Xóa" CommandArgument='<%# Eval("ID") %>'/>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                     </Columns>
                     <EditRowStyle BackColor="#2461BF" />
                     <EmptyDataTemplate>
